@@ -9,12 +9,10 @@ const useEVData = (url) => {
     const fetchData = async () => {
       try {
         const response = await fetch(url);
-        const reader = response.body.getReader();
-        const result = await reader.read();
-        const decoder = new TextDecoder('utf-8');
-        const csv = decoder.decode(result.value);
         
-        Papa.parse(csv, {
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
